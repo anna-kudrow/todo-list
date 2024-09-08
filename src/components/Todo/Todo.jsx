@@ -1,21 +1,7 @@
 import { useState } from "react";
 import Button from "../Button/Button";
 import TodoList from "../TodoList/TodoList";
-
-
-// Вторым шагом можно добавить к каждой задаче кнопки редактирования и удаления.
-
-// Никакие стейт менеджеры не используем, передаём данные через пропсы.
-
-// Так же не забываем, что мы фронтендеры и наши приложения должны выглядеть красиво 🙂 Поэтому вот список требований по стилизации:
-// - Компонент должен быть отцентрирован
-// - Инпут и кнопка должны быть одной высоты
-// - Кнопки редактирования и удаления можно оформить иконками, а так же показывать их только при ховере на всю задачу
-
-// Можно выбрать любой UI Kit (MUI, Shadcn, Ant...)
-
-// UX (Не обязательно, но желательно):
-// - Когда фокус на инпуте, при нажатии на ентер добавляем / редактируем задачу
+import './Todo.css'
 
 function Todo() {
     const [todoList, setTodoList] = useState([])
@@ -34,13 +20,24 @@ function Todo() {
         } 
     }
 
+    function deleteTask (e) {
+        setTodoList(todoList.filter(task => task !== e.target.id))
+
+    }
+
+    function editTask (e) {
+        console.log('btn edit');
+    }
+
     return ( 
         <>
             <h1 className="todo-title">Todo list</h1>
             <div className="todo-box">
-                <input type="text" className="todo-input" onChange={updateInput} placeholder="add a task" value={inputValue}  />
-                <Button onClick={addTodo}>ADD</Button>
-                <TodoList todoList={todoList}/>    
+                <div className="todo-field">
+                    <input type="text" className="todo-input" onChange={updateInput} placeholder="add a task" value={inputValue}  />
+                    <Button onClick={addTodo}>ADD</Button>
+                </div>
+                <TodoList todoList={todoList} onClickDelete={deleteTask} onClickEdit={editTask}/>    
             </div>
         </>
      );
